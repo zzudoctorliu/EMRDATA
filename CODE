@@ -311,4 +311,29 @@ plt.ylabel('Loss')
 plt.title('Training Loss')
 plt.show()
 
+SHAP
+import xgboost as xgb
+import shap
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# load data
+data = pd.read_csv('your filepath')
+
+# Separate the feature from the target variable
+X = data.drop(columns=['outcome'])  # 'outcome' is target column, you need edit it according to your dataset.
+y = data['outcome']
+
+# Train the XGBoost model
+model = xgb.XGBClassifier()
+model.fit(X, y)
+
+# Initializes the SHAP interpreter
+explainer = shap.Explainer(model)
+shap_values = explainer(X)
+
+# Generate a SHAP summary plot and save it as a PDF
+shap.summary_plot(shap_values, X, show=False)
+plt.savefig('shap_summary_plot.pdf', format='pdf') 
+
 
